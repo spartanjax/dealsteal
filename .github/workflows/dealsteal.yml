@@ -1,0 +1,50 @@
+name: Dealsteal
+
+on:
+  repository_dispatch:
+    types: [dealsteal-run]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Fetch and judge, but do not notify and do not save state"
+        type: boolean
+        default: false
+
+concurrency:
+  group: dealsteal
+  cancel-in-progress: false
+
+permissions:
+  contents: write # required to force-push the state branch
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Run dealsteal
+        run: python main.py ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          TRADEME_CONSUMER_KEY: ${{ secrets.TRADEME_CONSUMER_KEY }}
+          TRADEME_CONSUMER_SECRET: ${{ secrets.TRADEME_CONSUMER_SECRET }}
+          TRADEME_TOKEN: ${{ secrets.TRADEME_TOKEN }}
+          TRADEME_TOKEN_SECRET: ${{ secrets.TRADEME_TOKEN_SECRET }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}

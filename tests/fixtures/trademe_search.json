@@ -1,0 +1,70 @@
+{
+  "TotalCount": 3,
+  "Page": 1,
+  "PageSize": 3,
+  "List": [
+    {
+      "ListingId": 5123456789,
+      "Title": "Electric standing desk 1200mm white",
+      "Category": "0344-",
+      "CategoryPath": "Computers > Desktop computers > Stands",
+      "StartPrice": 180.0,
+      "BuyNowPrice": 180.0,
+      "PriceDisplay": "$180",
+      "StartDate": "2026-11-11T01:15:00Z",
+      "EndDate": "2026-11-18T01:15:00Z",
+      "Region": "Auckland",
+      "Suburb": "Sandringham",
+      "PictureHref": "https://img.trademe.co.nz/thumbnail/1.jpg",
+      "PhotoUrls": [
+        "https://img.trademe.co.nz/photo/1a.jpg",
+        "https://img.trademe.co.nz/photo/1b.jpg"
+      ],
+      "BidCount": 0,
+      "IsClassified": true,
+      "IsBuyNowOnly": false,
+      "HasBuyNow": true
+    },
+    {
+      "ListingId": 5123456790,
+      "Title": "Standing desk motor faulty",
+      "Category": "0344-",
+      "CategoryPath": "Computers > Desktop computers > Stands",
+      "StartPrice": 40.0,
+      "BuyNowPrice": 0.0,
+      "PriceDisplay": "$40",
+      "StartDate": "/Date(1762826400000)/",
+      "EndDate": "/Date(1763517600000)/",
+      "Region": "Wellington",
+      "Suburb": "Te Aro",
+      "PhotoUrls": [],
+      "BidCount": 2,
+      "IsClassified": false,
+      "IsBuyNowOnly": false,
+      "HasBuyNow": false
+    },
+    {
+      "ListingId": 5123456791,
+      "Title": "Standing desk cable tray spare",
+      "Category": "0344-",
+      "CategoryPath": "Computers > Desktop computers > Stands",
+      "StartPrice": 25.0,
+      "BuyNowPrice": 25.0,
+      "PriceDisplay": "$25",
+      "StartDate": "2026-11-11T02:40:00Z",
+      "EndDate": "2026-11-20T02:40:00Z",
+      "Region": "Auckland",
+      "Suburb": "Ponsonby",
+      "PhotoUrls": ["https://img.trademe.co.nz/photo/3a.jpg"],
+      "BidCount": 0,
+      "IsClassified": true,
+      "IsBuyNowOnly": false,
+      "HasBuyNow": true
+    },
+    {
+      "ListingId": 0,
+      "Title": "broken fixture row, should be ignored",
+      "StartPrice": 0.0
+    }
+  ]
+}

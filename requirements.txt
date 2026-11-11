@@ -1,0 +1,5 @@
+requests>=2.32
+requests-oauthlib>=2.0
+PyYAML>=6.0
+openai>=1.40
+pytest>=8.0

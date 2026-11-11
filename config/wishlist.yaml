@@ -1,0 +1,41 @@
+# dealsteal wishlist
+#
+# One entry per thing you are hunting. Each run performs one Trade Me search
+# per item, so keep queries tight: broad queries cost tokens and make noise.
+#
+#   name             required; appears in notifications and the database
+#   query            required; Trade Me search string
+#   max_price        drop anything priced above this (NZD)
+#   min_price        drop anything below this (filters out accessories/parts)
+#   regions          Trade Me region names, e.g. Auckland, Wellington, Canterbury
+#   exclude_terms    word-boundary matched against the title
+#   must_match_any   at least one of these must appear in the title
+#   condition        new | used
+#   listed_as        auctions | classifieds
+#   notes            free text handed to the judge for this item
+
+settings:
+  max_candidates_per_run: 25 # hard cap sent to the LLM, per item
+  rows_per_search: 100
+  min_score: 60 # judge score required before notifying
+  url_template: "https://www.trademe.co.nz/a.aspx?id={listing_id}"
+
+items:
+  - name: standing desk
+    query: standing desk
+    max_price: 400
+    min_price: 60
+    regions: [Auckland]
+    exclude_terms: [wanted, "parts only", broken, faulty, manual, cover]
+    must_match_any: [desk]
+    condition: used
+    notes: Electric preferred. Want at least 120cm wide.
+
+  - name: road bike
+    query: road bike
+    max_price: 1200
+    min_price: 200
+    regions: [Auckland]
+    exclude_terms: [wanted, kids, childs, "for parts", broken]
+    must_match_any: [bike, bicycle]
+    notes: Alloy or carbon frame, 54-56cm, Shimano 105 or better groupset.
