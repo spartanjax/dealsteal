@@ -87,10 +87,36 @@ class Settings:
     max_candidates_per_run: int = 25
     rows_per_search: int = 100
     min_score: int = 60
+    seller_status: str = "casual"
     url_template: str = "https://www.trademe.co.nz/a.aspx?id={listing_id}"
     ntfy_base_url: str = "https://ntfy.sh"
     deepseek_model: str = "deepseek-chat"
     deepseek_base_url: str = "https://api.deepseek.com"
+
+
+SELLER_STATUS = {
+    "casual": "Casual",  # individuals only
+    "in_trade": "InTrade",  # businesses and retailers only
+    "all": "All",
+}
+
+
+def seller_status_param(value: str | None) -> str | None:
+    """Map a friendly config value onto Trade Me's enum.
+
+    `Casual` is the one that matters: it drops company listings at the API, so
+    retail stock at retail price never reaches the judge.
+    """
+    if value is None:
+        return None
+    key = str(value).strip().lower()
+    try:
+        return SELLER_STATUS[key]
+    except KeyError:
+        allowed = ", ".join(sorted(SELLER_STATUS))
+        raise ConfigError(
+            f"unknown seller_status {value!r} (use one of: {allowed})"
+        ) from None
 
 
 @dataclass(frozen=True)
@@ -104,6 +130,7 @@ class WishItem:
     must_match_any: tuple[str, ...] = ()
     condition: str | None = None
     listed_as: str | None = None
+    seller_status: str | None = None
     notes: str | None = None
 
     def matches_region(self, *candidates: str | None) -> bool:
@@ -142,6 +169,9 @@ def parse_item(raw: dict[str, Any]) -> WishItem:
         raise ConfigError("every wishlist item needs a 'name'")
     if not raw.get("query"):
         raise ConfigError(f"wishlist item {raw['name']!r} needs a 'query'")
+    status = raw.get("seller_status")
+    if status is not None:
+        seller_status_param(status)  # validate early, raise on typos
     return WishItem(
         name=str(raw["name"]).strip(),
         query=str(raw["query"]).strip(),
@@ -152,6 +182,7 @@ def parse_item(raw: dict[str, Any]) -> WishItem:
         must_match_any=_str_tuple(raw.get("must_match_any")),
         condition=raw.get("condition"),
         listed_as=raw.get("listed_as"),
+        seller_status=str(status).strip().lower() if status else None,
         notes=raw.get("notes"),
     )
 
@@ -177,8 +208,11 @@ def load_config(config_dir: Path | None = None) -> Config:
     if unknown:
         raise ConfigError(f"unknown settings keys: {', '.join(sorted(unknown))}")
 
+    settings = Settings(**settings_raw)
+    seller_status_param(settings.seller_status)  # validate the default
+
     return Config(
-        settings=Settings(**settings_raw),
+        settings=settings,
         items=items,
         criteria=criteria_path.read_text(encoding="utf-8"),
     )

@@ -143,6 +143,24 @@ def test_search_params_respect_listed_as():
     assert client.build_params(item)["listed_as"] == "Classifieds"
 
 
+def test_search_params_exclude_businesses_by_default():
+    client = TradeMeClient(SECRETS, SETTINGS)
+    params = client.build_params(WishItem(name="desk", query="desk"))
+    assert params["seller_status"] == "Casual"
+
+
+def test_item_can_opt_into_business_sellers():
+    client = TradeMeClient(SECRETS, SETTINGS)
+    item = WishItem(name="desk", query="desk", seller_status="in_trade")
+    assert client.build_params(item)["seller_status"] == "InTrade"
+
+
+def test_item_can_disable_the_seller_filter():
+    client = TradeMeClient(SECRETS, SETTINGS)
+    item = WishItem(name="desk", query="desk", seller_status="all")
+    assert client.build_params(item)["seller_status"] == "All"
+
+
 DEAL_FIXTURE = Path(__file__).parent / "fixtures" / "trademe_deal.json"
 
 

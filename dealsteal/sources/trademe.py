@@ -21,7 +21,7 @@ from typing import Any, Iterable
 import requests
 from requests_oauthlib import OAuth1
 
-from ..config import Secrets, Settings, WishItem
+from ..config import Secrets, Settings, WishItem, seller_status_param
 from ..models import Listing, as_price
 
 log = logging.getLogger(__name__)
@@ -116,6 +116,12 @@ class TradeMeClient:
             "page": 1,
             "return_24_hrs_aggregation": "true",
         }
+        # Casual drops company/retail stock before it ever reaches the judge.
+        status = seller_status_param(
+            item.seller_status or self._settings.seller_status
+        )
+        if status:
+            params["seller_status"] = status
         if item.condition and item.condition.lower() in {"new", "used"}:
             params["condition"] = item.condition.capitalize()
         if item.listed_as and item.listed_as.lower() in {"auctions", "classifieds"}:

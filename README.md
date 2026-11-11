@@ -115,6 +115,10 @@ items:
     condition: used
 ```
 
+`seller_status` deserves a note: it defaults to `casual`, which asks Trade Me
+for individual sellers only, so shop and retailer stock never reaches the
+judge. Set it to `in_trade` or `all` per item if you ever want the opposite.
+
 `config/criteria.md` is the judge's brief. It is plain prose, edited like a
 note to a friend: what counts as a deal, what is a hard pass, what deserves a
 red flag. Changing it changes behaviour with no code change.

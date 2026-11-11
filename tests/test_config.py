@@ -157,6 +157,35 @@ def test_region_matching(tmp_path):
     assert not item.matches_region("Canterbury")
 
 
+def test_seller_status_defaults_to_casual(tmp_path):
+    config = load_config(write_config(tmp_path))
+    assert config.settings.seller_status == "casual"
+
+
+def test_item_can_override_seller_status(tmp_path):
+    wishlist = WISHLIST.replace(
+        "    notes: Electric preferred.\n", "    seller_status: in_trade\n"
+    )
+    config = load_config(write_config(tmp_path, wishlist=wishlist))
+    item = config.item("standing desk")
+    assert item is not None
+    assert item.seller_status == "in_trade"
+
+
+def test_bad_seller_status_in_settings_is_a_config_error(tmp_path):
+    bad = WISHLIST.replace("settings:\n", "settings:\n  seller_status: maybe\n")
+    with pytest.raises(ConfigError, match="seller_status"):
+        load_config(write_config(tmp_path, wishlist=bad))
+
+
+def test_bad_seller_status_on_an_item_is_a_config_error(tmp_path):
+    bad = WISHLIST.replace(
+        "    notes: Electric preferred.\n", "    seller_status: shop\n"
+    )
+    with pytest.raises(ConfigError, match="seller_status"):
+        load_config(write_config(tmp_path, wishlist=bad))
+
+
 def test_secrets_dataclass_is_frozen():
     secrets = Secrets("a", "b", "c", "d", "e", "f")
     with pytest.raises(Exception):

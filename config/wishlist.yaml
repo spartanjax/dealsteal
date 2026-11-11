@@ -12,12 +12,14 @@
 #   must_match_any   at least one of these must appear in the title
 #   condition        new | used
 #   listed_as        auctions | classifieds
+#   seller_status    casual | in_trade | all (defaults to settings.seller_status)
 #   notes            free text handed to the judge for this item
 
 settings:
   max_candidates_per_run: 25 # hard cap sent to the LLM, per item
   rows_per_search: 100
   min_score: 60 # judge score required before notifying
+  seller_status: casual # casual = individuals only; in_trade = shops only; all
   deepseek_model: deepseek-flash # deepseek-flash or deepseek-v4-pro
   url_template: "https://www.trademe.co.nz/a.aspx?id={listing_id}"
 

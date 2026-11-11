@@ -37,6 +37,11 @@ it trains the buyer to ignore these alerts.
 - Bulk lots or multi-packs where the headline price is per unit.
 - "Wanted to buy" ads - these are buyers, not sellers.
 - New retail stock at retail price from a shop.
+- Listings from a business, retailer, or professional trader. This buyer wants
+  individual sellers only. Signs: shop-style branding, "in stock", "brand new
+  sealed", multiple sizes or colours available, a returns or warranty policy,
+  or several identical units for sale. Treat these as a hard fail even if the
+  price looks reasonable - a shop's regular price is not a deal.
 - A title that is only tangentially related to the wishlist item.
 
 ## Red flags worth naming
