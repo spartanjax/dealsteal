@@ -110,7 +110,18 @@ def configure_logging(verbose: bool) -> None:
         format="%(asctime)s %(levelname)-7s %(name)s: %(message)s",
         datefmt="%H:%M:%S",
     )
-    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    # -v is for our own debug lines, not for HTTP connection teardown.
+    for noisy in (
+        "httpx",
+        "httpx2",
+        "httpcore",
+        "httpcore2",
+        "openai",
+        "urllib3",
+        "requests_oauthlib",
+        "oauthlib",
+    ):
+        logging.getLogger(noisy).setLevel(logging.WARNING)
 
 
 def select_items(config: Config, name: str | None) -> list[WishItem]:

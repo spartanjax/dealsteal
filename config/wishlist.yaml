@@ -18,6 +18,7 @@ settings:
   max_candidates_per_run: 25 # hard cap sent to the LLM, per item
   rows_per_search: 100
   min_score: 60 # judge score required before notifying
+  deepseek_model: deepseek-flash # deepseek-flash or deepseek-v4-pro
   url_template: "https://www.trademe.co.nz/a.aspx?id={listing_id}"
 
 items:
