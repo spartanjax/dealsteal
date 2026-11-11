@@ -141,3 +141,16 @@ def test_search_params_respect_listed_as():
     client = TradeMeClient(SECRETS, SETTINGS)
     item = WishItem(name="desk", query="desk", listed_as="classifieds")
     assert client.build_params(item)["listed_as"] == "Classifieds"
+
+
+DEAL_FIXTURE = Path(__file__).parent / "fixtures" / "trademe_deal.json"
+
+
+def test_deal_fixture_has_one_obvious_bargain():
+    listings = listings_from_fixture(DEAL_FIXTURE, SETTINGS)
+    assert len(listings) == 4
+    bargain = listings[0]
+    assert bargain.price == 150.0
+    assert bargain.region == "Auckland"
+    assert bargain.photo_count == 6
+    assert bargain.age_minutes() is not None
